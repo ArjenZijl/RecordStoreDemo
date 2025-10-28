@@ -7,9 +7,14 @@
 <body>
 <h1>Overview of all albums in the record store</h1>
 
-<p>
-    Hier is je pagina vriend <span th:text="${requesttime}"></span>
-</p>
+<table>
+    <th>
+        <td>title</td>
+    </th>
+    <tr th:each="album : ${albums}">
+        <td th:text="${album.title}"></td>
+    </tr>
+</table>
 
 </body>
 </html>
