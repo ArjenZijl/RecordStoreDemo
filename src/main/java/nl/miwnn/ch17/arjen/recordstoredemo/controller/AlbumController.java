@@ -1,11 +1,13 @@
 package nl.miwnn.ch17.arjen.recordstoredemo.controller;
 
 import nl.miwnn.ch17.arjen.recordstoredemo.model.Album;
+import nl.miwnn.ch17.arjen.recordstoredemo.repositories.AlbumRepository;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.ui.Model;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 /**
  * @author Arjen Zijlstra
@@ -14,19 +16,35 @@ import java.util.ArrayList;
 
 @Controller
 public class AlbumController {
+    private final AlbumRepository albumRepository;
 
-    @GetMapping("/albums")
-    private static String ShowAlbumOverview(Model datamodel) {
-        ArrayList<Album> albums = new ArrayList<>();
+    public AlbumController(AlbumRepository albumRepository) {
+        this.albumRepository = albumRepository;
+    }
 
-        albums.add(new Album("Brothers in Arms"));
-        albums.add(new Album("I Never Loved a Man the Way I Love You"));
-        albums.add(new Album("Rumours"));
+    @GetMapping({"/album/all","/"})
+    private String ShowAlbumOverview(Model datamodel) {
 
-
-        datamodel.addAttribute("albums", albums);
+        datamodel.addAttribute("albums", albumRepository.findAll());
 
         return "albumOverview";
     }
+
+    @GetMapping("/album/add")
+    public String showAlbumForm(Model datamodel) {
+        datamodel.addAttribute("formAlbum", new Album());
+
+        return "albumForm";
+    }
+
+    @PostMapping("/album/save")
+    public String saveOrUpdateAlbum(@ModelAttribute("formAlbum") Album album, BindingResult result) {
+        if (!result.hasErrors()) {
+            albumRepository.save(album);
+        }
+
+        return "redirect:/album/all";
+    }
+
 
 }

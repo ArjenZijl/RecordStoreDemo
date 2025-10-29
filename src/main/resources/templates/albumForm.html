@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add new album</title>
+</head>
+<body>
+<h1>Add a new album</h1>
+
+<form th:action="@{/album/save}" method="post" th:object="${formAlbum}">
+    Title: <input type="text" th:field="*{title}">
+    <input type="submit" value="Save album">
+
+</form>
+</body>
