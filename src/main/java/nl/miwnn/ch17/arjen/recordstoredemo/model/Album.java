@@ -16,7 +16,6 @@ public class Album {
     Long albumId;
     String title;
 
-
     public String getTitle() {
         return title;
     }
