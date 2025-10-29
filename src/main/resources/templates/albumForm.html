@@ -8,8 +8,8 @@
 <h1>Add a new album</h1>
 
 <form th:action="@{/album/save}" method="post" th:object="${formAlbum}">
+    <input th:field="*{albumId}">
     Title: <input type="text" th:field="*{title}">
     <input type="submit" value="Save album">
-
 </form>
 </body>

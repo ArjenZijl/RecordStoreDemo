@@ -13,7 +13,9 @@
     </th>
     <tr th:each="album : ${albums}">
         <td th:text="${album.title}"></td>
+        <td><a th:href="@{/album/edit/{albumId}(albumId = ${album.albumId})}">Edit</a></td>
         <td><a th:href="@{/album/delete/{albumId}(albumId = ${album.albumId})}">Delete</a></td>
+
     </tr>
 </table>
 

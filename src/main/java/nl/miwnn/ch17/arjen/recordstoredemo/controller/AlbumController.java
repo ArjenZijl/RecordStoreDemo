@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.Optional;
+
 /**
  * @author Arjen Zijlstra
  * Handle requests regarding albums
@@ -50,6 +52,19 @@ public class AlbumController {
     @GetMapping("/album/delete/{albumId}")
     public String deleteAlbum(@PathVariable("albumId") Long albumId) {
         albumRepository.deleteById(albumId);
+
+        return "redirect:/album/all";
+    }
+
+    @GetMapping("/album/edit/{albumId}")
+    public String showEditAlbumForm(@PathVariable("albumId") Long albumId, Model datamodel) {
+
+        Optional<Album> optionalAlbum = albumRepository.findById(albumId);
+
+        if (optionalAlbum.isPresent()) {
+            datamodel.addAttribute("formAlbum", optionalAlbum);
+            return "albumForm";
+        }
 
         return "redirect:/album/all";
     }
